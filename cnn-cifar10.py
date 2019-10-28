@@ -55,10 +55,13 @@ conv3 = maxpool2d(conv3)
 conv3_flat = tf.reshape(conv3, shape=[-1, 4*4*128])
 conv3_dropout = tf.nn.dropout(conv3_flat, keep_prob=keep_prob)
 
-flat_layer = tf.nn.relu(full_layer(conv3_dropout, size=512))
-flat_layer_dropout = tf.nn.dropout(flat_layer, keep_prob=keep_prob)
+flat_layer1 = tf.nn.relu(full_layer(conv3_dropout, size=512))
+flat_layer_dropout1 = tf.nn.dropout(flat_layer1, keep_prob=keep_prob)
 
-y_pred = full_layer(flat_layer_dropout, size=10)
+flat_layer2 = tf.nn.relu(full_layer(flat_layer_dropout1, size=256))
+flat_layer_dropout2 = tf.nn.dropout(flat_layer2, keep_prob=keep_prob)
+
+y_pred = full_layer(flat_layer_dropout2, size=10)
 
 cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=y_pred, labels=y_true))
 
@@ -72,7 +75,9 @@ accuracy = tf.reduce_mean(tf.cast(correct_mask, tf.float32))
 def test(sess):
     X = cifar.test.images.reshape(10, 1000, 32, 32, 3)
     Y = cifar.test.labels.reshape(10, 1000, 10)
-    acc = np.mean([sess.run(accuracy, feed_dict={x: X[i], y_true: Y[i], keep_prob: 1.0}) for i in range(10)])
+    acc = np.mean([sess.run(accuracy, feed_dict={x: X[i],
+                                                 y_true: Y[i],
+                                                 keep_prob: 1.0}) for i in range(10)])
     print("Accuracy on Test Set: {:.4}%".format(acc * 100))
 
 
