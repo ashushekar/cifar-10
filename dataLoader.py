@@ -62,10 +62,10 @@ def display_cifar(images, size):
     # plt.show(block=True)
 
 
-# d = CifarDataManager()
-# print("Number of train images: {}".format(len(d.train.images)))
-# print("Number of train labels: {}".format(len(d.train.labels)))
-# print("Number of test images: {}".format(len(d.test.images)))
-# print("Number of test images: {}".format(len(d.test.labels)))
-# images = d.test.images
-# display_cifar(images, 10)
+d = CifarDataManager()
+print("Number of train images: {}".format(len(d.train.images)))
+print("Number of train labels: {}".format(len(d.train.labels)))
+print("Number of test images: {}".format(len(d.test.images)))
+print("Number of test images: {}".format(len(d.test.labels)))
+images = d.test.images
+display_cifar(images, 10)

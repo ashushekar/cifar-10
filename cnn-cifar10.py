@@ -80,8 +80,10 @@ with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
     for i in range(NUM_STEPS):
         batch = cifar.train.next_batch(MINIBATCH_SIZE)
-        acc, _ = sess.run([accuracy, optimizer], feed_dict={x: batch[0], y_true: batch[1], keep_prob: 0.5})
+        acc, loss, _ = sess.run([accuracy, cross_entropy, optimizer], feed_dict={x: batch[0],
+                                                                           y_true: batch[1],
+                                                                           keep_prob: 0.5})
         if i % 100 == 0:
-            print("Training accuracy at {} step: {:.4}%".format(i, acc*100))
+            print("Training accuracy at {} step: {:.4}% with loss: {:.4}".format(i, acc*100, loss))
         if i % 500 == 0:
             test(sess)
